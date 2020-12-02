@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Topic
-from .forms import Topic
+from .forms import TopicForm
 # Create your views here.
 def index(request):
     """The homr page for learning log."""
@@ -26,13 +26,11 @@ def topic(request, topic_id):
 
 def new_topic(request):
     if request.method !='POST':
-        form = EntryForm()
+        form = TopicForm()
     else:
-        form = EntryForm(data=tequest.POST)
+        form = TopicForm(data=tequest.POST)
 
         if form.is_valid():
-
-            
             form.save()
             return redirect('learning_logs:topic',topic_id=topic_id)
 
