@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     """The homr page for learning log."""
@@ -14,7 +15,7 @@ def topics(request):
     context = {'topics':topics}
 
     return render(request, 'learning_logs/topics.html', context)
-
+@login_required
 def topic(request, topic_id):
 
     topic = Topic.objects.get(id=topic_id)
@@ -23,7 +24,7 @@ def topic(request, topic_id):
     context = {'topic':topic, 'entries':entries}
 
     return render(request, 'learning_logs/topics.html', context)
-
+@login_required
 def new_topic(request):
     if request.method !='POST':
         form = TopicForm()
@@ -38,6 +39,7 @@ def new_topic(request):
     return render(request, 'learning_logs/new_topic.html', context)
 
 #Get is to read data. Post is to send data
+@login_required
 def new_entry(request, topic_id):
     topic = Topic.objects.get(id=tpoic_id)
     if request.method !='POST':
@@ -54,7 +56,7 @@ def new_entry(request, topic_id):
 
     context = {'form': form, 'topic':topic}
     return render(request, 'learning_logs/new_entry.html', context)
-
+@login_required
 def edit_entry(request, edit_id):
     entry = Entry.objects.get(id=entry_id)
     topic = entry.topic
